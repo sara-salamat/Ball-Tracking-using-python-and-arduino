@@ -12,12 +12,12 @@ kernelopen = np.ones((8,8))
 lowerbound = np.array([10 , 150 , 0])
 upperbound = np.array([32,255 ,255])
 
-#arduino = serial.Serial('COM9' , baudrate=9600)
+arduino = serial.Serial('COM9' , baudrate=9600)
 time.sleep(2)
 
 while True:
     retval , image = cam.read()
-    image = cv2.resize(image , (480 , 320))
+    image = cv2.resize(image , (300 , 300))
     image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     
     mask = cv2.inRange(image_hsv , lowerbound , upperbound)
@@ -34,7 +34,7 @@ while True:
 
     print('x: {} y: {}'.format(cX , cY))
     data = "X{0:d}Y{1:d}Z".format(cX, cY)
-#    arduino.write(data)
+    arduino.write(data.encode())
     cv2.waitKey(10)
     k = cv2.waitKey(30) & 0xff
     if k == 27:
